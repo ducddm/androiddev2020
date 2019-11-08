@@ -21,7 +21,7 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = new View(getContext());
-        v.setBackgroundColor(0xFFF0000);
+        v.setBackgroundColor(0xFFFF0000);
         return v;
     }
 

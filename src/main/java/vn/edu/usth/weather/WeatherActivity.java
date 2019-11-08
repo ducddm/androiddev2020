@@ -14,7 +14,7 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_weather);
 
         ForecastFragment firstFragment = new ForecastFragment();
         // Add the fragment to the ' container' FrameLayout

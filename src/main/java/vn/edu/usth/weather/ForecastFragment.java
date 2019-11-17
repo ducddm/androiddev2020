@@ -20,15 +20,17 @@ public class ForecastFragment extends Fragment {
 
 //    @Nullable
 //    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View v = new View(getContext());
-//        v.setBackgroundColor(0xFFFF0000);
-//        return v;
-//    }
+//   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  //      View v = new View(getContext());
+
+    //    v.setBackgroundColor(0xFFFF0000);
+    //    return v;
+   // }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_forecast, container, false);
     }
+
 }

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.widget.Adapter;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+
 import org.w3c.dom.Text;
 
 public class WeatherActivity extends AppCompatActivity {
@@ -25,6 +27,9 @@ public class WeatherActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R. id. tab);
+        tabLayout.setupWithViewPager(viewPager);
 
 
         // Give the TabLayout the ViewPager

@@ -13,7 +13,7 @@ import android.os.Bundle;
 
 public class HomeFragmentPaperAdapter extends FragmentPagerAdapter {
     private final int PAGE_COUNT = 3;
-    private String[] titles = new String[]{"Hanoi", "Paris", "Toulouse"};
+    private String[] titles = new String[]{"Hanoi,Vietnam", "Paris,France", "Berlin,Germany"};
 
     protected HomeFragmentPaperAdapter(FragmentManager fm) {
         super(fm);

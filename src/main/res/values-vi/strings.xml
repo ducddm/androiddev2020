@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Thời tiết USTH</string>
+    <string name="cloudy" translatable="false">Nhiều mây</string>
+    <string name="current_weather">Nhiều mây</string>
+    <string name="friday" translatable="false">Thứ 6</string>
+    <string name="heavy_rain" translatable="false">Mưa to</string>
+    <string name="monday" translatable="false">Thứ 2</string>
+    <string name="rain" translatable="false">Mưa</string>
+    <string name="saturday" translatable="false">Thứ 7</string>
+    <string name="snow" translatable="false">Tuyết</string>
+    <string name="storm" translatable="false">Sấm chớp</string>
+    <string name="sunday" translatable="false">Chủ nhật</string>
+    <string name="sunny" translatable="false">Nắng</string>
+    <string name="thursday" translatable="false">Thứ 5</string>
+    <string name="tuesday" translatable="false">Thứ 3</string>
+</resources>

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".WeatherAndForecastFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Update blank fragment menu_main -->
 
     <RelativeLayout
         android:layout_width="300dp"
@@ -75,7 +75,7 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <!-- TODO: Update blank fragment layout -->
+            <!-- TODO: Update blank fragment menu_main -->
 
 
             <LinearLayout

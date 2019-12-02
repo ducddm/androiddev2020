@@ -12,13 +12,13 @@
         android:layout_width="300dp"
         android:layout_gravity="center"
         android:layout_height="200dp"
-        android:background="@drawable/frame_background9">
+        android:background="@drawable/frame1">
 
 
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="150dp"
+            android:layout_width="150dp"
+            android:layout_height="125dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:contentDescription="@string/description"
@@ -60,14 +60,14 @@
     </RelativeLayout>
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_width="340dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fillViewport="true">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30px"
             android:layout_marginTop="20px"
             android:layout_marginRight="30px"

@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Adapter;
 import android.widget.TextView;
@@ -13,7 +16,14 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class WeatherActivity extends AppCompatActivity {
+
+    MediaPlayer music;
 
 
     @Override
@@ -28,7 +38,7 @@ public class WeatherActivity extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R. id. tab);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
         tabLayout.setupWithViewPager(viewPager);
 
 
@@ -38,9 +48,38 @@ public class WeatherActivity extends AppCompatActivity {
         //getSupportFragmentManager(). beginTransaction(). add(
         //R.id.container, firstFragment). commit();
 
+        copyFileToExternalStorage(R.raw.musique,"musique.mp3");
+
+        music = MediaPlayer.create(WeatherActivity.this,R.raw.musique);
+        music.start();
+
+
 
     }
 
+    private void copyFileToExternalStorage(int resourceId, String resourceName){
+        String pathSDCard = Environment.getExternalStorageDirectory()
+                + "/Android/data/vn.edu.usth.weather/" + resourceName;
+        try{
+            InputStream in = getResources().openRawResource(resourceId);
+            FileOutputStream out = null;
+            out = new FileOutputStream(pathSDCard);
+            byte[] buff = new byte[1024];
+            int read = 0;
+            try {
+                while ((read = in.read(buff)) > 0) {
+                    out.write(buff, 0, read);
+                }
+            } finally {
+                in.close();
+                out.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     protected void onStart(){
         super.onStart();

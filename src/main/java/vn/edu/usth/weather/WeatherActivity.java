@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,8 +20,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.tabs.TabLayout;
@@ -31,10 +34,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class WeatherActivity extends AppCompatActivity {
 
     MediaPlayer music;
+    URL url;
 
     final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -68,16 +75,16 @@ public class WeatherActivity extends AppCompatActivity {
         //getSupportFragmentManager(). beginTransaction(). add(
         //R.id.container, firstFragment). commit();
 
-        copyFileToExternalStorage(R.raw.musique,"musique.mp3");
+        copyFileToExternalStorage(R.raw.musique, "musique.mp3");
 
-        music = MediaPlayer.create(WeatherActivity.this,R.raw.musique);
+        music = MediaPlayer.create(WeatherActivity.this, R.raw.musique);
         music.start();
 
         final Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                String content = msg. getData(). getString("server_response");
-                Toast.makeText(getApplicationContext(),content,Toast.LENGTH_LONG).show();
+                String content = msg.getData().getString("server_response");
+                Toast.makeText(getApplicationContext(), content, Toast.LENGTH_LONG).show();
             }
         };
         Thread t = new Thread(new Runnable() {
@@ -85,29 +92,34 @@ public class WeatherActivity extends AppCompatActivity {
             public void run() {
                 try {
                     // wait for 5 seconds to simulate a long network access
-                    Thread. sleep(5000);
-                }
-                catch (InterruptedException e) {
-                    e. printStackTrace();
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 // Assume that we got our data from server
                 Bundle bundle = new Bundle();
                 bundle.putString("server_response", "some sample json here");
                 // notify main thread
                 Message msg = new Message();
-                msg. setData(bundle);
-                handler. sendMessage(msg);
+                msg.setData(bundle);
+                handler.sendMessage(msg);
             }
         });
-        t. start();
+        t.start();
     }
 
-    private class AsyncTaskRunner extends AsyncTask<String,String,String> {
-        private String resp;
+    private class AsyncTaskRunner extends AsyncTask<URL, Integer, Bitmap> {
+        Bitmap bitmap;
         ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
+
+            try {
+                url = new URL("https://ictlab.usth.edu.vn/wp-content/uploads/logos/usth.png");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             // do some preparation here, if needed
             progressDialog = ProgressDialog.show(WeatherActivity.this,
                     "Updating weather...",
@@ -115,26 +127,40 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected Bitmap doInBackground(URL... urls) {
             try {
                 Thread.sleep(5000);
-                resp = "Sleep for 5 seconds";
+                // Make a request to server
+                HttpURLConnection connection =
+                        (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setDoInput(true);
+                // allow reading response code and response dataconnection.
+                connection.connect();
+                // Receive response
+                int response = connection.getResponseCode();
+                Log.i("USTHWeather", "The response is: " + response);
+                InputStream is = connection.getInputStream();
+                // Process image response
+                bitmap = BitmapFactory.decodeStream(is);
+
+                connection.disconnect();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                resp = e.getMessage();
             } catch (Exception e) {
                 e.printStackTrace();
-                resp = e.getMessage();
             }
 
-            return resp;
+            return bitmap;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(Bitmap bitmap) {
             // execution of result of Long time consuming operation
-            progressDialog.dismiss();
             // Assume that we got our data from server
+            ImageView logo = (ImageView) findViewById(R.id.logo);
+            logo.setImageBitmap(bitmap);
+            progressDialog.dismiss();
             Bundle bundle = new Bundle();
             bundle.putString("server_response", "some sample json here");
             // notify main thread
@@ -144,16 +170,16 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(String... text) {
+        protected void onProgressUpdate(Integer... integers) {
             // Do something here
         }
 
     }
 
-    private void copyFileToExternalStorage(int resourceId, String resourceName){
+    private void copyFileToExternalStorage(int resourceId, String resourceName) {
         String pathSDCard = Environment.getExternalStorageDirectory()
                 + "/Android/data/vn.edu.usth.weather/" + resourceName;
-        try{
+        try {
             InputStream in = getResources().openRawResource(resourceId);
             FileOutputStream out = null;
             out = new FileOutputStream(pathSDCard);
@@ -187,13 +213,12 @@ public class WeatherActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.refresh:
-                AsyncTaskRunner runner = new AsyncTaskRunner();
-                runner.execute("5000");
+                new AsyncTaskRunner().execute(url);
                 return true;
             case R.id.settings:
-                Intent intent = new Intent(this,PrefActivity.class);
+                Intent intent = new Intent(this, PrefActivity.class);
                 startActivity(intent);
                 return true;
         }
@@ -204,33 +229,33 @@ public class WeatherActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
-        Log.i("THIS","Welcome to USTH Weather");
+        Log.i("THIS", "Welcome to USTH Weather");
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        Log.i("THIS","Welcome to  Weather");
+        Log.i("THIS", "Welcome to  Weather");
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        Log.i("THIS","USTH Weather");
+        Log.i("THIS", "USTH Weather");
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
-        Log.i("THIS","Weather");
+        Log.i("THIS", "Weather");
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
-        Log.i("THIS","to");
+        Log.i("THIS", "to");
     }
 
 

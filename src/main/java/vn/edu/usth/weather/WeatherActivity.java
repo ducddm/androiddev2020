@@ -207,6 +207,8 @@ public class WeatherActivity extends AppCompatActivity {
 
     }
 
+    
+
     private void copyFileToExternalStorage(int resourceId, String resourceName) {
         String pathSDCard = Environment.getExternalStorageDirectory()
                 + "/Android/data/vn.edu.usth.weather/" + resourceName;

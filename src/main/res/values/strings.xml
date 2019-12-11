@@ -29,4 +29,6 @@
     <string name="current_weather">Cloudy</string>
     <string name="friday">Fri</string>
 
+    <string name="api_key">62f545f8bb2e86037f789033d6f6f1ee</string>
+
 </resources>

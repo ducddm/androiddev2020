@@ -15,12 +15,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </androidx.viewpager.widget.ViewPager>
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:id="@+id/logo"
+            android:alpha="0.1"
+            android:contentDescription="@string/description"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.viewpager.widget.ViewPager>
+    </FrameLayout>
 
 
 
